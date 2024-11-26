@@ -3,3 +3,4 @@
 3 - Pipes
 4 - HTML & CSS
 5 - Typescript
+6 - Services
