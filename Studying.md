@@ -5,3 +5,4 @@
 5 - Typescript
 6 - Services
 7 - Directives
+8 - Injectables
