@@ -8,3 +8,4 @@
 8 - Injectables
 9 - MongoDB
 10 - Interceptors
+11 - Firebase
