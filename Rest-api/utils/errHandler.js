@@ -1,13 +1,15 @@
 function errorHandler(err, req, res, next) {
-    if (err.status === 333) {
-        res.status(333)
-            .json({ message: 'ErrorHandler: not allowed!' })
-    } else {
-        console.error(err.stack)
-        // console.log(err)
-        res.status(500)
-            .json({ message: 'ErrorHandler: Something went wrong!', err })
-    }
+  if (err.status === 333) {
+    res.status(333).json({ message: "ErrorHandler: not allowed!" });
+  } else {
+    console.error(err.stack);
+    res
+      .status(500)
+      .json({
+        message: "ErrorHandler: Something went wrong!",
+        error: err.message,
+      });
+  }
 }
 
 module.exports = errorHandler;

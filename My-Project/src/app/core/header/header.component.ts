@@ -6,11 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent {
-  onLogin() {
-    console.log('Login button clicked');
-  }
+  menuOpen = false;
 
-  onRegister() {
-    console.log('Register button clicked');
+  toggleMenu(): void {
+    this.menuOpen = !this.menuOpen;
   }
 }

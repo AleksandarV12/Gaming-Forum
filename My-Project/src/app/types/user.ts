@@ -1,12 +1,8 @@
 export interface User {
-  themes: string[];
-  posts: string[];
-  _id: string;
-  tel: string;
-  email: string;
+  id: string;
   username: string;
+  email: string;
   password: string;
-  created_at: string;
-  updatedAt: string;
-  __v: number;
+  avatarUrl: string;
+  createdAt: Date;
 }

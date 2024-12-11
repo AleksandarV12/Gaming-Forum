@@ -1,10 +1,21 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const { auth } = require('../utils');
-const { postController } = require('../controllers');
+const { auth } = require("../utils");
+const { postController } = require("../controllers");
 
-// middleware that is specific to this router
+// Get latest posts
+router.get("/", postController.getLatestPosts);
 
-router.get('/', postController.getLatestsPosts);
+// Create a new post (needs authentication)
+router.post("/", auth(), postController.createPost);
 
-module.exports = router
+// Get a single post by ID
+router.get("/:postId", postController.getPostById);
+
+// Edit a post (needs authentication)
+router.put("/:postId", auth(), postController.editPost);
+
+// Delete a post (needs authentication)
+router.delete("/:postId", auth(), postController.deletePost);
+
+module.exports = router;

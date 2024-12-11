@@ -1,9 +1,12 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const { authController } = require('../controllers');
-const { auth } = require('../utils');
+const { authController } = require("../controllers");
+const { auth } = require("../utils");
 
-router.get('/profile', auth(),authController.getProfileInfo);
-router.put('/profile', auth(),authController.editProfileInfo);
+// Get user profile information (needs authentication)
+router.get("/profile", auth(), authController.getProfileInfo);
 
-module.exports = router
+// Edit user profile information (needs authentication)
+router.put("/profile", auth(), authController.editProfileInfo);
+
+module.exports = router;

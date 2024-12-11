@@ -1,10 +1,9 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const { auth } = require('../utils');
-const { postController } = require('../controllers');
+const { auth } = require("../utils");
+const { postController } = require("../controllers");
 
-// middleware that is specific to this router
+// Route to like a post
+router.put("/:postId", auth(), postController.like);
 
-router.put('/:postId', auth(), postController.like);
-
-module.exports = router
+module.exports = router;

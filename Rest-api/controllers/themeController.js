@@ -1,52 +1,67 @@
-const { themeModel } = require('../models');
-const { newPost } = require('./postController')
+const { themeModel } = require("../models");
+const { newPost } = require("./postController");
 
-function getThemes(req, res, next) {
-    themeModel.find()
-        .populate('userId')
-        .then(themes => res.json(themes))
-        .catch(next);
+async function getThemes(req, res, next) {
+  try {
+    const themes = await themeModel.find().populate("creatorId");
+    res.status(200).json(themes);
+  } catch (err) {
+    next(err);
+  }
 }
 
-function getTheme(req, res, next) {
-    const { themeId } = req.params;
+async function getTheme(req, res, next) {
+  const { themeId } = req.params;
 
-    themeModel.findById(themeId)
-        .populate({
-            path : 'posts',
-            populate : {
-              path : 'userId'
-            }
-          })
-        .then(theme => res.json(theme))
-        .catch(next);
+  try {
+    const theme = await themeModel.findById(themeId).populate({
+      path: "posts",
+      populate: {
+        path: "authorId",
+      },
+    });
+    res.status(200).json(theme);
+  } catch (err) {
+    next(err);
+  }
 }
 
-function createTheme(req, res, next) {
-    const { themeName, postText } = req.body;
-    const { _id: userId } = req.user;
+async function createTheme(req, res, next) {
+  const { title, description } = req.body;
+  const { _id: userId } = req.user;
 
-    themeModel.create({ themeName, userId, subscribers: [userId] })
-        .then(theme => {
-            newPost(postText, userId, theme._id)
-                .then(([_, updatedTheme]) => res.status(200).json(updatedTheme))
-        })
-        .catch(next);
+  try {
+    const theme = await themeModel.create({
+      title,
+      description,
+      creatorId: userId,
+      createdAt: new Date(),
+    });
+    res.status(201).json(theme);
+  } catch (err) {
+    next(err);
+  }
 }
 
-function subscribe(req, res, next) {
-    const themeId = req.params.themeId;
-    const { _id: userId } = req.user;
-    themeModel.findByIdAndUpdate({ _id: themeId }, { $addToSet: { subscribers: userId } }, { new: true })
-        .then(updatedTheme => {
-            res.status(200).json(updatedTheme)
-        })
-        .catch(next);
+async function subscribe(req, res, next) {
+  const themeId = req.params.themeId;
+  const { _id: userId } = req.user;
+
+  try {
+    const updatedTheme = await themeModel.findByIdAndUpdate(
+      { _id: themeId },
+      { $addToSet: { subscribers: userId } },
+      { new: true }
+    );
+    res.status(200).json(updatedTheme);
+  } catch (err) {
+    next(err);
+  }
 }
 
 module.exports = {
-    getThemes,
-    createTheme,
-    getTheme,
-    subscribe,
-}
+  getThemes,
+  createTheme,
+  getTheme,
+  subscribe,
+};
