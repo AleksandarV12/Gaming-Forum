@@ -5,5 +5,5 @@ export interface Post {
   authorId: string;
   themeId: string;
   createdAt: Date;
-  updatedAt?: Date;
+  updatedAt: Date;
 }

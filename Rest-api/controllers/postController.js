@@ -1,120 +1,105 @@
-const { userModel, themeModel, postModel } = require("../models");
+const { postModel } = require("../models");
 
-async function newPost(title, content, userId, themeId) {
-  return postModel
-    .create({ title, content, authorId: userId, themeId })
-    .then((post) => {
-      return Promise.all([
-        userModel.updateOne(
-          { _id: userId },
-          { $push: { posts: post._id }, $addToSet: { themes: themeId } }
-        ),
-        themeModel.findByIdAndUpdate(
-          { _id: themeId },
-          { $push: { posts: post._id } },
-          { new: true }
-        ),
-      ]);
-    });
-}
+// Get the latest posts
+exports.getLatestsPosts = async (req, res) => {
+  try {
+    const posts = await postModel.find().sort({ created_at: -1 }).limit(10); // Sorting by created_at in descending order
+    res.json(posts);
+  } catch (error) {
+    console.error(error); // Log the error for debugging
+    res.status(500).json({ message: "Error fetching posts" });
+  }
+};
 
-async function getLatestsPosts(req, res, next) {
-  const limit = Number(req.query.limit) || 0;
+// Create a new post
+exports.createPost = async (req, res) => {
+  const { text, userId, themeId } = req.body;
 
   try {
-    const posts = await postModel
-      .find()
-      .sort({ createdAt: -1 })
-      .limit(limit)
-      .populate("themeId authorId");
-    res.status(200).json(posts);
-  } catch (err) {
-    next(err);
+    const newPost = new postModel({ text, userId, themeId });
+    await newPost.save();
+    res.status(201).json(newPost); // Return the created post
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({ message: "Error creating post" });
   }
-}
+};
 
-async function createPost(req, res, next) {
-  const { themeId } = req.params;
-  const { _id: userId } = req.user;
-  const { title, content } = req.body;
-
-  try {
-    const newPost = await postModel.create({
-      title,
-      content,
-      authorId: userId,
-      themeId,
-    });
-    res.status(201).json(newPost);
-  } catch (err) {
-    next(err);
-  }
-}
-
-async function editPost(req, res, next) {
+// Get a single post by ID
+exports.getPostById = async (req, res) => {
   const { postId } = req.params;
-  const { title, content } = req.body;
-  const { _id: userId } = req.user;
 
   try {
-    const updatedPost = await postModel.findOneAndUpdate(
-      { _id: postId, authorId: userId },
-      { title, content },
+    const post = await postModel.findById(postId);
+    if (!post) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+    res.json(post);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error fetching post" });
+  }
+};
+
+// Edit a post
+exports.editPost = async (req, res) => {
+  const { postId } = req.params;
+  const { text } = req.body;
+
+  try {
+    const updatedPost = await postModel.findByIdAndUpdate(
+      postId,
+      { text },
       { new: true }
     );
-    if (updatedPost) {
-      res.status(200).json(updatedPost);
-    } else {
-      res.status(403).json({ message: "Not allowed!" });
+    if (!updatedPost) {
+      return res.status(404).json({ message: "Post not found" });
     }
-  } catch (err) {
-    next(err);
+    res.json(updatedPost);
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({ message: "Error updating post" });
   }
-}
+};
 
-async function deletePost(req, res, next) {
-  const { postId, themeId } = req.params;
-  const { _id: userId } = req.user;
-
-  try {
-    const deletedPost = await postModel.findOneAndDelete({
-      _id: postId,
-      authorId: userId,
-    });
-    if (deletedPost) {
-      await userModel.updateOne({ _id: userId }, { $pull: { posts: postId } });
-      await themeModel.updateOne(
-        { _id: themeId },
-        { $pull: { posts: postId } }
-      );
-      res.status(200).json(deletedPost);
-    } else {
-      res.status(403).json({ message: "Not allowed!" });
-    }
-  } catch (err) {
-    next(err);
-  }
-}
-
-async function like(req, res, next) {
+// Delete a post
+exports.deletePost = async (req, res) => {
   const { postId } = req.params;
-  const { _id: userId } = req.user;
 
   try {
-    await postModel.updateOne(
-      { _id: postId },
-      { $addToSet: { likes: userId } }
-    );
-    res.status(200).json({ message: "Liked successfully!" });
-  } catch (err) {
-    next(err);
+    const deletedPost = await postModel.findByIdAndDelete(postId);
+    if (!deletedPost) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+    res.status(204).send(); // Send a no content response
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error deleting post" });
   }
-}
+};
 
-module.exports = {
-  getLatestsPosts,
-  createPost,
-  editPost,
-  deletePost,
-  like,
+// Like a post
+exports.like = async (req, res) => {
+  const { postId } = req.params;
+  const userId = req.user._id; // Assuming user ID is stored in req.user
+
+  try {
+    const post = await postModel.findById(postId);
+    if (!post) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+
+    // Toggle like: If user already liked, remove; otherwise, add
+    if (post.likes.includes(userId)) {
+      post.likes.pull(userId); // Remove user from likes
+    } else {
+      post.likes.push(userId); // Add user to likes
+    }
+
+    await post.save();
+    res.json(post);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error liking post" });
+  }
 };

@@ -2,9 +2,11 @@ const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const cookieSecret = process.env.COOKIESECRET || "SoftUni";
-const userRoutes = require("./routes/user.routes"); // Import user routes
-const postRoutes = require("./routes/post.routes"); // Import post routes
-const themeRoutes = require("./routes/theme.routes"); // Import theme routes
+
+// Adjust the path to the user routes file
+const userRoutes = require("../router/users"); // Correct path to users
+const postRoutes = require("../router/posts"); // Correct path to posts
+const themeRoutes = require("../router/themes"); // Correct path to themes
 
 module.exports = (app) => {
   app.use(express.json());
