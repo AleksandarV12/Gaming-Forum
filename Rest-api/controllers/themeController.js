@@ -1,67 +1,89 @@
-const { themeModel } = require("../models");
-const { newPost } = require("./postController");
+const Theme = require("../models/themeModel");
 
-async function getThemes(req, res, next) {
+// Get all themes
+exports.getThemes = async (req, res) => {
   try {
-    const themes = await themeModel.find().populate("creatorId");
-    res.status(200).json(themes);
-  } catch (err) {
-    next(err);
-  }
-}
-
-async function getTheme(req, res, next) {
-  const { themeId } = req.params;
-
-  try {
-    const theme = await themeModel.findById(themeId).populate({
-      path: "posts",
-      populate: {
-        path: "authorId",
-      },
+    console.log("Fetching all themes...");
+    //const themes = await Theme.find().populate("creatorId", "username");
+    res.json({
+      postIds: ["1", "4"],
+      _id: "67590aa57c4ee20fb201fb84",
+      id: "1",
+      title: "Action Games",
+      description:
+        "Discuss your favorite action games, from platformers to shooters.",
+      creatorId: "1",
+      createdAt: "2024-01-10T08:00:00.000Z",
     });
-    res.status(200).json(theme);
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    console.error("Error fetching themes:", error.message);
+    res
+      .status(500)
+      .json({ message: "Error fetching themes", error: error.message });
   }
-}
+};
 
-async function createTheme(req, res, next) {
-  const { title, description } = req.body;
-  const { _id: userId } = req.user;
-
+// Get a specific theme by ID or custom id
+exports.getTheme = async (req, res) => {
+  const { themeId } = req.params;
   try {
-    const theme = await themeModel.create({
+    let theme;
+
+    // Check if themeId is a valid ObjectId or fallback to custom id
+    if (themeId.match(/^[0-9a-fA-F]{24}$/)) {
+      theme = await Theme.findById(themeId);
+    } else {
+      theme = await Theme.findOne({ id: themeId });
+    }
+
+    if (!theme) {
+      return res.status(404).json({ message: "Theme not found" });
+    }
+
+    res.json(theme);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching theme", error });
+  }
+};
+
+// Create a new theme
+exports.createTheme = async (req, res) => {
+  const { id, title, description, creatorId } = req.body;
+  try {
+    const newTheme = new Theme({
+      id,
       title,
       description,
-      creatorId: userId,
+      creatorId,
       createdAt: new Date(),
     });
-    res.status(201).json(theme);
-  } catch (err) {
-    next(err);
-  }
-}
 
-async function subscribe(req, res, next) {
-  const themeId = req.params.themeId;
-  const { _id: userId } = req.user;
+    await newTheme.save();
+    res.status(201).json(newTheme);
+  } catch (error) {
+    res.status(500).json({ message: "Error creating theme", error });
+  }
+};
+
+// Subscribe to a theme
+exports.subscribe = async (req, res) => {
+  const { themeId } = req.params;
+  const { userId } = req.body;
 
   try {
-    const updatedTheme = await themeModel.findByIdAndUpdate(
-      { _id: themeId },
-      { $addToSet: { subscribers: userId } },
-      { new: true }
-    );
-    res.status(200).json(updatedTheme);
-  } catch (err) {
-    next(err);
-  }
-}
+    const theme = await Theme.findById(themeId);
 
-module.exports = {
-  getThemes,
-  createTheme,
-  getTheme,
-  subscribe,
+    if (!theme) {
+      return res.status(404).json({ message: "Theme not found" });
+    }
+
+    if (!theme.subscribers.includes(userId)) {
+      theme.subscribers.push(userId);
+      await theme.save();
+    }
+
+    res.json({ message: "Subscribed successfully", theme });
+  } catch (error) {
+    res.status(500).json({ message: "Error subscribing to theme", error });
+  }
 };

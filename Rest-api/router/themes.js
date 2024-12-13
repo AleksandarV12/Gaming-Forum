@@ -6,22 +6,24 @@ const { themeController, postController } = require("../controllers");
 // Get all themes
 router.get("/", themeController.getThemes);
 
-// Create a new theme (needs authentication)
+// Create a new theme (requires authentication)
 router.post("/", auth(), themeController.createTheme);
 
 // Get a specific theme by ID
 router.get("/:themeId", themeController.getTheme);
 
-// Subscribe to a theme (needs authentication)
+router.get("/api/themes", themeController.getThemes);
+
+// Subscribe to a theme (requires authentication)
 router.put("/:themeId/subscribe", auth(), themeController.subscribe);
 
-// Create a post in a specific theme (needs authentication)
+// Create a post within a theme (requires authentication)
 router.post("/:themeId/posts", auth(), postController.createPost);
 
-// Edit a post in a specific theme (needs authentication)
+// Edit a post within a theme (requires authentication)
 router.put("/:themeId/posts/:postId", auth(), postController.editPost);
 
-// Delete a post in a specific theme (needs authentication)
+// Delete a post within a theme (requires authentication)
 router.delete("/:themeId/posts/:postId", auth(), postController.deletePost);
 
 module.exports = router;
