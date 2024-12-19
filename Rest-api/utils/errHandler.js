@@ -3,12 +3,10 @@ function errorHandler(err, req, res, next) {
     res.status(333).json({ message: "ErrorHandler: not allowed!" });
   } else {
     console.error(err.stack);
+    // console.log(err)
     res
       .status(500)
-      .json({
-        message: "ErrorHandler: Something went wrong!",
-        error: err.message,
-      });
+      .json({ message: "ErrorHandler: Something went wrong!", err });
   }
 }
 

@@ -6,29 +6,25 @@ const postSchema = new mongoose.Schema(
     title: {
       type: String,
       required: true,
+      trim: true,
     },
-    content: {
+    text: {
       type: String,
       required: true,
+      trim: true,
     },
-    likes: [
-      {
-        type: ObjectId,
-        ref: "User",
-      },
-    ],
-    authorId: {
-      type: ObjectId,
+    userId: {
+      type: ObjectId, // Reference to the User model
       ref: "User",
       required: true,
     },
     themeId: {
-      type: ObjectId,
+      type: ObjectId, // Reference to the Theme model
       ref: "Theme",
       required: true,
     },
   },
-  { timestamps: { createdAt: "created_at" } }
+  { timestamps: true } // Automatically adds `createdAt` and `updatedAt`
 );
 
 module.exports = mongoose.model("Post", postSchema);

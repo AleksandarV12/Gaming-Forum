@@ -1,14 +1,16 @@
 const { themeModel } = require("../models");
 const { newPost } = require("./postController");
 
+// Get all themes
 function getThemes(req, res, next) {
   themeModel
     .find()
-    .populate("userId")
+    .populate("userId", "username avatarUrl") // Populate only selected fields
     .then((themes) => res.json(themes))
     .catch(next);
 }
 
+// Get a single theme by ID
 function getTheme(req, res, next) {
   const { themeId } = req.params;
 
@@ -18,44 +20,43 @@ function getTheme(req, res, next) {
       path: "posts",
       populate: {
         path: "userId",
+        select: "username avatarUrl", // Populate only selected fields
       },
     })
-    .then((theme) => res.json(theme))
-    .catch(next);
-}
-
-function createTheme(req, res, next) {
-  const { themeName, postText } = req.body;
-  const { _id: userId } = req.user;
-
-  themeModel
-    .create({ themeName, userId, subscribers: [userId] })
     .then((theme) => {
-      newPost(postText, userId, theme._id).then(([_, updatedTheme]) =>
-        res.status(200).json(updatedTheme)
-      );
+      if (!theme) {
+        return res.status(404).json({ message: "Theme not found" });
+      }
+      res.json(theme);
     })
     .catch(next);
 }
 
-function subscribe(req, res, next) {
-  const themeId = req.params.themeId;
+// Create a new theme
+function createTheme(req, res, next) {
+  const { themeName, description, postText } = req.body;
   const { _id: userId } = req.user;
+
+  // Generate a unique ID for the theme
+  const id = new mongoose.Types.ObjectId().toString();
+
   themeModel
-    .findByIdAndUpdate(
-      { _id: themeId },
-      { $addToSet: { subscribers: userId } },
-      { new: true }
-    )
-    .then((updatedTheme) => {
-      res.status(200).json(updatedTheme);
+    .create({ themeName, userId, id, description })
+    .then((theme) => {
+      if (postText) {
+        // Create a new post if postText is provided
+        return newPost(postText, userId, theme._id).then(([_, updatedTheme]) =>
+          res.status(200).json(updatedTheme)
+        );
+      }
+      res.status(201).json(theme);
     })
     .catch(next);
 }
 
+// Export the controller functions
 module.exports = {
   getThemes,
   createTheme,
   getTheme,
-  subscribe,
 };

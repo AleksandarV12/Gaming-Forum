@@ -13,15 +13,11 @@ function auth(redirectUnauthenticated = true) {
         if (blacklistedToken) {
           return Promise.reject(new Error("blacklisted token"));
         }
-        return userModel.findById(data.id);
-      })
-      .then((user) => {
-        if (!user) {
-          throw new Error("User not found");
-        }
-        req.user = user;
-        req.isLogged = true;
-        next();
+        userModel.findById(data.id).then((user) => {
+          req.user = user;
+          req.isLogged = true;
+          next();
+        });
       })
       .catch((err) => {
         if (!redirectUnauthenticated) {
@@ -33,7 +29,6 @@ function auth(redirectUnauthenticated = true) {
             "token expired",
             "blacklisted token",
             "jwt must be provided",
-            "User not found",
           ].includes(err.message)
         ) {
           console.error(err);

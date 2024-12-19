@@ -9,6 +9,11 @@ module.exports = () => {
       useCreateIndex: true,
       useFindAndModify: false,
     })
-    .then(() => console.log("Database connected successfully"))
-    .catch((err) => console.error("Database connection error:", err));
+    .then(() => {
+      console.log("MongoDB connected successfully");
+    })
+    .catch((error) => {
+      console.error("MongoDB connection error:", error);
+      process.exit(1); // Exit process with failure
+    });
 };

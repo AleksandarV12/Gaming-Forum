@@ -2,19 +2,8 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const saltRounds = Number(process.env.SALTROUNDS) || 5;
 
-const { ObjectId } = mongoose.Schema.Types;
-
 const userSchema = new mongoose.Schema(
   {
-    tel: {
-      type: String,
-      required: false,
-    },
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-    },
     username: {
       type: String,
       required: true,
@@ -22,38 +11,35 @@ const userSchema = new mongoose.Schema(
       minlength: [5, "Username should be at least 5 characters"],
       validate: {
         validator: function (v) {
-          return /^[a-zA-Z0-9]+$/.test(v);
+          return /^[a-zA-Z0-9]+$/.test(v); // Enforce entire string check
         },
         message: (props) =>
-          `${props.value} must contain only Latin letters and digits!`,
+          `${props.value} must contain only latin letters and digits!`,
       },
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
     },
     password: {
       type: String,
       required: true,
-      minlength: [5, "Password should be at least 5 characters"],
+      minlength: [8, "Password should be at least 8 characters"], // Increased min length
       validate: {
         validator: function (v) {
-          return /^[a-zA-Z0-9]+$/.test(v);
+          return /^[a-zA-Z0-9]+$/.test(v); // Enforce entire string check
         },
         message: (props) =>
-          `${props.value} must contain only Latin letters and digits!`,
+          `${props.value} must contain only latin letters and digits!`,
       },
     },
-    themes: [
-      {
-        type: ObjectId,
-        ref: "Theme",
-      },
-    ],
-    posts: [
-      {
-        type: ObjectId,
-        ref: "Post",
-      },
-    ],
+    avatarUrl: {
+      type: String,
+      default: "https://example.com/default-avatar.png", // Set a default avatar URL
+    },
   },
-  { timestamps: { createdAt: "created_at" } }
+  { timestamps: true }
 );
 
 userSchema.methods = {
@@ -76,9 +62,9 @@ userSchema.pre("save", function (next) {
         next();
       });
     });
-  } else {
-    next();
+    return; // Return to avoid executing next() again
   }
+  next();
 });
 
 module.exports = mongoose.model("User", userSchema);
