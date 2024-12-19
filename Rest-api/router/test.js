@@ -1,14 +1,17 @@
 const express = require("express");
 const router = express.Router();
+const utils = require("../utils");
 
-// Simple test route to check API status
-router.get("/", (req, res) => {
-  const data = {
-    name: "Gaming Forum API",
-    version: "1.0.0",
-    description: "REST API for the gaming forum application.",
-    main: "index.js",
-  };
+// middleware that is specific to this router
+
+const data = {
+  name: "rest-api",
+  version: "1.0.0",
+  description: "REST-api for back-end of Angular course workshop in SoftUni",
+  main: "index.js",
+};
+
+router.get("/", function (req, res) {
   res.send(data);
 });
 

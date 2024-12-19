@@ -6,12 +6,10 @@ const likes = require("./likes");
 const test = require("./test");
 const { authController } = require("../controllers");
 
-// Authentication routes
 router.post("/register", authController.register);
 router.post("/login", authController.login);
 router.post("/logout", authController.logout);
 
-// Main application routes
 router.use("/users", users);
 router.use("/themes", themes);
 router.use("/posts", posts);

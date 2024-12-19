@@ -1,115 +1,123 @@
 const { userModel, tokenBlacklistModel } = require("../models");
+
 const utils = require("../utils");
 const { authCookieName } = require("../app-config");
 
-const bsonToJson = (data) => JSON.parse(JSON.stringify(data));
-
+const bsonToJson = (data) => {
+  return JSON.parse(JSON.stringify(data));
+};
 const removePassword = (data) => {
   const { password, __v, ...userData } = data;
   return userData;
 };
 
-async function register(req, res, next) {
-  const { username, email, password, repeatPassword } = req.body;
+function register(req, res, next) {
+  const { tel, email, username, password, repeatPassword } = req.body;
 
-  // Password hashing (you should have a hashing function defined)
-  const hashedPassword = await utils.hashPassword(password);
+  return userModel
+    .create({ tel, email, username, password })
+    .then((createdUser) => {
+      createdUser = bsonToJson(createdUser);
+      createdUser = removePassword(createdUser);
 
-  if (password !== repeatPassword) {
-    return res.status(400).send({ message: "Passwords do not match!" });
-  }
+      const token = utils.jwt.createToken({ id: createdUser._id });
+      if (process.env.NODE_ENV === "production") {
+        res.cookie(authCookieName, token, {
+          httpOnly: true,
+          sameSite: "none",
+          secure: true,
+        });
+      } else {
+        res.cookie(authCookieName, token, { httpOnly: true });
+      }
+      res.status(200).send(createdUser);
+    })
+    .catch((err) => {
+      if (err.name === "MongoError" && err.code === 11000) {
+        let field = err.message.split("index: ")[1];
+        field = field.split(" dup key")[0];
+        field = field.substring(0, field.lastIndexOf("_"));
 
-  try {
-    const createdUser = await userModel.create({
-      username,
-      email,
-      password: hashedPassword,
+        res
+          .status(409)
+          .send({ message: `This ${field} is already registered!` });
+        return;
+      }
+      next(err);
     });
-    const token = utils.jwt.createToken({ id: createdUser._id });
-
-    res.cookie(authCookieName, token, {
-      httpOnly: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "Lax",
-    });
-    res.status(201).send(removePassword(createdUser));
-  } catch (err) {
-    if (err.name === "MongoError" && err.code === 11000) {
-      const field = err.message
-        .split("index: ")[1]
-        .split(" dup key")[0]
-        .split("_")[0];
-      return res
-        .status(409)
-        .send({ message: `This ${field} is already registered!` });
-    }
-    next(err);
-  }
 }
 
-async function login(req, res, next) {
+function login(req, res, next) {
   const { email, password } = req.body;
 
-  try {
-    const user = await userModel.findOne({ email });
-    const match = user ? await user.matchPassword(password) : false;
+  userModel
+    .findOne({ email })
+    .then((user) => {
+      return Promise.all([user, user ? user.matchPassword(password) : false]);
+    })
+    .then(([user, match]) => {
+      if (!match) {
+        res.status(401).send({ message: "Wrong email or password" });
+        return;
+      }
+      user = bsonToJson(user);
+      user = removePassword(user);
 
-    if (!match) {
-      return res.status(401).send({ message: "Wrong email or password" });
-    }
+      const token = utils.jwt.createToken({ id: user._id });
 
-    const token = utils.jwt.createToken({ id: user._id });
-    res.cookie(authCookieName, token, {
-      httpOnly: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "Lax",
-    });
-    res.status(200).send(removePassword(user));
-  } catch (err) {
-    next(err);
-  }
+      if (process.env.NODE_ENV === "production") {
+        res.cookie(authCookieName, token, {
+          httpOnly: true,
+          sameSite: "none",
+          secure: true,
+        });
+      } else {
+        res.cookie(authCookieName, token, { httpOnly: true });
+      }
+      res.status(200).send(user);
+    })
+    .catch(next);
 }
 
-async function logout(req, res) {
+function logout(req, res) {
   const token = req.cookies[authCookieName];
 
-  try {
-    await tokenBlacklistModel.create({ token });
-    res
-      .clearCookie(authCookieName)
-      .status(204)
-      .send({ message: "Logged out!" });
-  } catch (err) {
-    res.status(500).send(err);
-  }
+  tokenBlacklistModel
+    .create({ token })
+    .then(() => {
+      res
+        .clearCookie(authCookieName)
+        .status(204)
+        .send({ message: "Logged out!" });
+    })
+    .catch((err) => res.send(err));
 }
 
-async function getProfileInfo(req, res, next) {
+function getProfileInfo(req, res, next) {
   const { _id: userId } = req.user;
 
-  try {
-    const user = await userModel.findOne(
-      { _id: userId },
-      { password: 0, __v: 0 }
-    );
-    res.status(200).json(user);
-  } catch (err) {
-    next(err);
-  }
+  userModel
+    .findOne({ _id: userId }, { password: 0, __v: 0 }) //finding by Id and returning without password and __v
+    .then((user) => {
+      res.status(200).json(user);
+    })
+    .catch(next);
 }
 
-async function editProfileInfo(req, res, next) {
+function editProfileInfo(req, res, next) {
   const { _id: userId } = req.user;
-  const { username, email } = req.body;
+  const { tel, username, email } = req.body;
 
-  try {
-    const updatedUser = await userModel.findOneAndUpdate(
+  userModel
+    .findOneAndUpdate(
       { _id: userId },
-      { username, email },
+      { tel, username, email },
       { runValidators: true, new: true }
-    );
-    res.status(200).json(updatedUser);
-  } catch (err) {
-    next(err);
-  }
+    )
+    .then((x) => {
+      res.status(200).json(x);
+    })
+    .catch(next);
 }
 
 module.exports = {

@@ -3,27 +3,17 @@ const router = express.Router();
 const { auth } = require("../utils");
 const { themeController, postController } = require("../controllers");
 
-// Get all themes
-router.get("/", themeController.getThemes);
+// middleware that is specific to this router
 
-// Create a new theme (requires authentication)
+router.get("/", themeController.getThemes);
 router.post("/", auth(), themeController.createTheme);
 
-// Get a specific theme by ID
 router.get("/:themeId", themeController.getTheme);
-
-router.get("/api/themes", themeController.getThemes);
-
-// Subscribe to a theme (requires authentication)
-router.put("/:themeId/subscribe", auth(), themeController.subscribe);
-
-// Create a post within a theme (requires authentication)
-router.post("/:themeId/posts", auth(), postController.createPost);
-
-// Edit a post within a theme (requires authentication)
+router.post("/:themeId", auth(), postController.createPost);
+router.put("/:themeId", auth(), themeController.subscribe);
 router.put("/:themeId/posts/:postId", auth(), postController.editPost);
-
-// Delete a post within a theme (requires authentication)
 router.delete("/:themeId/posts/:postId", auth(), postController.deletePost);
+
+// router.get('/my-trips/:id/reservations', auth(), themeController.getReservations);
 
 module.exports = router;
