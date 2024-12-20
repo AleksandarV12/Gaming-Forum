@@ -1,36 +1,27 @@
 const mongoose = require("mongoose");
-const { ObjectId } = mongoose.Schema.Types;
 
-const themeSchema = new mongoose.Schema(
-  {
-    id: {
-      type: String,
-      required: true,
-      unique: true, // Custom ID, separate from `_id`
-    },
-    themeName: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    description: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    userId: {
-      type: ObjectId, // Reference to the User model
-      ref: "User",
-      required: true,
-    },
-    posts: [
-      {
-        type: ObjectId, // References to the Post model
-        ref: "Post",
-      },
-    ],
+const themeSchema = new mongoose.Schema({
+  description: {
+    type: String,
+    required: true,
   },
-  { timestamps: true } // Automatically adds `createdAt` and `updatedAt`
-);
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  userId: {
+    type: String,
+    required: true,
+  },
+  themeName: {
+    type: String,
+    required: true,
+  },
+  posts: {
+    type: [String], // Array of post IDs
+    default: [],
+  },
+});
 
-module.exports = mongoose.model("Theme", themeSchema);
+const Theme = mongoose.model("Theme", themeSchema);
+module.exports = Theme;
