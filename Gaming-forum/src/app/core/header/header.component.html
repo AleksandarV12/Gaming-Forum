@@ -1,0 +1,70 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="navbar-brand site-title">Gorum - The Gaming Forum</div>
+
+  <div class="dropdown" (click)="toggleDropdown()">
+    <button
+      class="btn btn-secondary dropdown-toggle"
+      type="button"
+      id="dropdownMenuButton"
+      aria-haspopup="true"
+      aria-expanded="false"
+    >
+      <i class="fas fa-bars"></i>
+      <!-- Hamburger icon -->
+    </button>
+    <div
+      class="dropdown-menu"
+      [ngClass]="{ show: isDropdownOpen }"
+      aria-labelledby="dropdownMenuButton"
+    >
+      <a class="dropdown-item" routerLink="/home">Home</a>
+      <a class="dropdown-item" routerLink="/about">About Us</a>
+      <a class="dropdown-item" routerLink="/contact">Contact</a>
+    </div>
+  </div>
+
+  <button
+    class="navbar-toggler"
+    type="button"
+    (click)="toggleProfileMenu()"
+    aria-controls="navbarNav"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav ml-auto">
+      <li *ngIf="authService.isLoggedIn()" class="nav-item dropdown">
+        <a
+          class="nav-link dropdown-toggle"
+          (click)="toggleProfileMenu()"
+          id="profileMenu"
+          role="button"
+          aria-haspopup="true"
+          aria-expanded="isProfileMenuOpen"
+        >
+          <i class="fas fa-user"></i> {{ authService.getUsername() || "User" }}
+        </a>
+        <ul class="dropdown-menu" [ngClass]="{ show: isProfileMenuOpen }">
+          <li><a routerLink="/profile">Profile</a></li>
+          <li><a class="dropdown-item" (click)="logout()">Logout</a></li>
+        </ul>
+      </li>
+      <li *ngIf="!authService.isLoggedIn()" class="nav-item">
+        <a class="nav-link" routerLink="/login">Login</a>
+      </li>
+      <li *ngIf="!authService.isLoggedIn()" class="nav-item">
+        <a class="nav-link" routerLink="/register">Register</a>
+      </li>
+      <li *ngIf="authService.isLoggedIn()" class="nav-item">
+        <a class="nav-link" routerLink="/dashboard">Dashboard</a>
+      </li>
+      <!-- Add Create Post link here -->
+      <li *ngIf="authService.isLoggedIn()" class="nav-item">
+        <a class="nav-link" routerLink="/create-post">Create Post</a>
+      </li>
+    </ul>
+  </div>
+</nav>

@@ -1,0 +1,13 @@
+.posts-container {
+    max-width: 800px; /* Adjust to your liking */
+    margin: 0 auto; /* Center the container */
+    padding: 20px;
+  }
+  
+  .post {
+    border: 1px solid #ccc; /* Add border */
+    padding: 15px;
+    margin-bottom: 15px; /* Space between posts */
+    border-radius: 5px; /* Rounded corners */
+  }
+  

@@ -1,0 +1,19 @@
+<div>
+  <h1>Create New Theme</h1>
+  <form (ngSubmit)="createTheme()">
+    <div>
+      <label for="themeName">Theme Name:</label>
+      <input id="themeName" [(ngModel)]="themeName" name="themeName" required />
+    </div>
+    <div>
+      <label for="description">Description:</label>
+      <textarea
+        id="description"
+        [(ngModel)]="description"
+        name="description"
+        required
+      ></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Create Theme</button>
+  </form>
+</div>

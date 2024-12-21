@@ -1,0 +1,101 @@
+/* General styles for the post list */
+.post-list {
+    padding: 30px; /* Add padding around the list */
+    background-color: #f4f7fa; /* Soft background color for contrast */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* More prominent shadow */
+  }
+  
+  /* Post item styles */
+  .post-item {
+    background-color: #ffffff; /* White background for individual posts */
+    border: 1px solid #e2e2e2; /* Light border for separation */
+    border-radius: 8px; /* Rounded corners */
+    margin-bottom: 20px; /* Space between posts */
+    padding: 20px; /* Padding inside post */
+    transition: all 0.3s ease; /* Smooth transition for hover effects */
+    overflow: hidden; /* Hide overflow */
+    position: relative; /* Position for pseudo-elements */
+  }
+  
+  /* Post item hover effect */
+  .post-item:hover {
+    transform: translateY(-5px); /* Slightly lift on hover */
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+  }
+  
+  /* Post title styles */
+  .post-title {
+    font-size: 1.5rem; /* Larger font size for titles */
+    color: #333; /* Dark color for titles */
+    font-weight: 700; /* Bold font for emphasis */
+    margin-bottom: 10px; /* Space below title */
+  }
+  
+  /* Post content styles */
+  .post-content {
+    font-size: 1.1rem; /* Standard font size for content */
+    color: #555; /* Slightly darker gray for content */
+    line-height: 1.6; /* Improved line height for readability */
+    margin-bottom: 15px; /* Space below content */
+  }
+  
+  /* Post date styles */
+  .post-date {
+    font-size: 0.9rem; /* Smaller font size for date */
+    color: #999; /* Light gray color for date */
+    margin-top: 10px; /* Space above date */
+    display: block; /* Make date a block element */
+  }
+  
+  /* Read more link styles */
+  .read-more {
+    display: inline-block; /* Allow padding around link */
+    background-color: #4a90e2; /* Primary button color */
+    color: #fff; /* White text for contrast */
+    padding: 10px 15px; /* Padding for button */
+    border-radius: 5px; /* Rounded corners for button */
+    text-decoration: none; /* Remove underline */
+    transition: background-color 0.3s ease; /* Smooth background transition */
+  }
+  
+  /* Read more link hover effect */
+  .read-more:hover {
+    background-color: #357ab8; /* Darker shade on hover */
+  }
+  
+  /* Responsive design for smaller screens */
+  @media (max-width: 768px) {
+    .post-list {
+      padding: 20px; /* Reduce padding */
+    }
+  
+    .post-item {
+      padding: 15px; /* Reduce padding for individual posts */
+    }
+  
+    .post-title {
+      font-size: 1.3rem; /* Slightly smaller title font size */
+    }
+  
+    .post-content {
+      font-size: 1rem; /* Reduce content font size */
+    }
+  }
+
+  .card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 15px 0;
+  }
+  
+  .card-title {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+  }
+  
+  .card-text {
+    color: var(--light-text-color);
+  }

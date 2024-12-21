@@ -1,0 +1,30 @@
+<div class="container mt-5">
+  <div class="text-center mb-4">
+    <h1>Welcome to the Dashboard</h1>
+    <p class="lead">Manage your posts and themes from here.</p>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-md-6 mb-3">
+      <a routerLink="/posts" class="btn btn-primary btn-lg btn-block"
+        >View Posts</a
+      >
+    </div>
+    <div class="col-md-6 mb-3">
+      <a routerLink="/themes" class="btn btn-secondary btn-lg btn-block"
+        >View Themes</a
+      >
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 mx-auto">
+      <h2>Your Themes</h2>
+      <ul class="list-group">
+        <li *ngFor="let theme of userThemes" class="list-group-item">
+          {{ theme.themeName }}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

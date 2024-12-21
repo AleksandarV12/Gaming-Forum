@@ -1,0 +1,52 @@
+.post-details {
+    padding: 20px; /* Padding around the details */
+    background-color: #f4f7fa; /* Soft background color */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  }
+  
+  /* Title styles */
+  .post-title {
+    font-size: 2rem; /* Larger font size for title */
+    color: #333; /* Dark color for title */
+    margin-bottom: 10px; /* Space below title */
+  }
+  
+  /* Date styles */
+  .post-date {
+    font-size: 1rem; /* Font size for date */
+    color: #999; /* Light gray color for date */
+    margin-bottom: 20px; /* Space below date */
+  }
+  
+  /* Content styles */
+  .post-content {
+    font-size: 1.2rem; /* Standard font size for content */
+    color: #555; /* Slightly darker gray for content */
+    line-height: 1.6; /* Improved line height for readability */
+    margin-bottom: 20px; /* Space below content */
+  }
+  
+  /* Author styles */
+  .post-author {
+    font-size: 1rem; /* Font size for author */
+    color: #333; /* Dark color for author */
+    margin-bottom: 20px; /* Space below author */
+  }
+  
+  /* Back button styles */
+  .back-button {
+    display: inline-block; /* Allow padding around link */
+    background-color: #4a90e2; /* Primary button color */
+    color: #fff; /* White text for contrast */
+    padding: 10px 15px; /* Padding for button */
+    border-radius: 5px; /* Rounded corners for button */
+    text-decoration: none; /* Remove underline */
+    transition: background-color 0.3s ease; /* Smooth background transition */
+  }
+  
+  /* Back button hover effect */
+  .back-button:hover {
+    background-color: #357ab8; /* Darker shade on hover */
+  }
+  

@@ -1,0 +1,36 @@
+<!-- src/app/features/contact/contact.component.html -->
+
+<h2>Contact Us</h2>
+<form (ngSubmit)="onSubmit()" #contactForm="ngForm">
+  <div>
+    <label for="name">Name:</label>
+    <input type="text" id="name" [(ngModel)]="name" name="name" required />
+    <div *ngIf="!name" style="color: red">Name is required.</div>
+  </div>
+
+  <div>
+    <label for="email">Email:</label>
+    <input type="email" id="email" [(ngModel)]="email" name="email" required />
+    <div *ngIf="!emailValid && email" style="color: red">
+      Invalid email address.
+    </div>
+  </div>
+
+  <div>
+    <label for="message">Message:</label>
+    <textarea
+      id="message"
+      [(ngModel)]="message"
+      name="message"
+      required
+    ></textarea>
+    <div *ngIf="!message" style="color: red">Message is required.</div>
+  </div>
+
+  <button type="submit">Send Message</button>
+</form>
+
+<!-- Display success message -->
+<div *ngIf="successMessage" class="success-message">
+  {{ successMessage }}
+</div>

@@ -2,8 +2,9 @@ const mongoose = require("mongoose");
 
 const postSchema = new mongoose.Schema({
   themeId: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
+    ref: "Theme",
   },
   createdAt: {
     type: Date,
@@ -22,8 +23,9 @@ const postSchema = new mongoose.Schema({
     required: true,
   },
   userId: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
+    ref: "User",
   },
 });
 

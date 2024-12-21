@@ -1,0 +1,41 @@
+/* General navbar styles */
+.navbar {
+  background: linear-gradient(to right, #4a90e2, #9013fe); /* Gradient background */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  display: flex; /* Enable flexbox */
+  justify-content: center; /* Center the items horizontally */
+  align-items: center; /* Center items vertically */
+  position: sticky;
+}
+
+/* Center the site title */
+.site-title {
+  text-align: center; /* Center the text */
+  font-size: 1.5rem; /* Increase font size */
+  color: #fff; /* White text for better contrast */
+  font-weight: bold; /* Bold font */
+  margin: 0; /* Remove default margin */
+  position: absolute; /* Allow absolute positioning */
+  left: 50%; /* Position from left */
+  transform: translateX(-50%); /* Center the title */
+}
+
+/* Dropdown Menu Styles */
+.dropdown-menu {
+  background-color: #444; /* Dark background for dropdown */
+  border-radius: 4px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Dropdown shadow */
+  position: absolute; /* Position it absolutely */
+  z-index: 1000; /* Ensure it sits above other content */
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column; /* Stack items vertically on small screens */
+  }
+
+  .site-title {
+    margin-bottom: 10px; /* Add some space below the title */
+  }
+}

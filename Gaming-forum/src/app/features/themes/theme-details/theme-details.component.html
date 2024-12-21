@@ -1,0 +1,9 @@
+<div *ngIf="errorMessage" class="alert alert-danger">
+  {{ errorMessage }}
+</div>
+
+<div *ngIf="theme">
+  <h1>{{ theme.themeName }}</h1>
+  <p>{{ theme.description }}</p>
+  <p>Created by: {{ theme.userId }}</p>
+</div>

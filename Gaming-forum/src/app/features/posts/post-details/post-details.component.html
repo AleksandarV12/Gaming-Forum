@@ -1,0 +1,14 @@
+<div class="post-details" *ngIf="post">
+  <h1 class="post-title">{{ post.title }}</h1>
+  <p class="post-date">{{ post.date | date : "mediumDate" }}</p>
+  <!-- Adjust based on your data structure -->
+  <div class="post-content">
+    <p>{{ post.body }}</p>
+    <!-- Adjust based on your data structure -->
+  </div>
+  <div class="post-author">
+    <strong>Author:</strong> {{ post.author }}
+    <!-- Adjust based on your data structure -->
+  </div>
+  <a routerLink="/posts" class="back-button">Back to Posts</a>
+</div>

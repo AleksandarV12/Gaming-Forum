@@ -1,0 +1,18 @@
+/* Set up the full height for the body and html */
+html, body {
+    height: 100%;
+    margin: 0;
+  }
+  
+  /* Flex container to keep footer at the bottom */
+  .container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Make the container take the full height of the viewport */
+  }
+  
+  /* Ensure the router outlet takes all available space */
+  router-outlet {
+    flex: 1; /* This allows the content to expand and fill the available space */
+  }
+  

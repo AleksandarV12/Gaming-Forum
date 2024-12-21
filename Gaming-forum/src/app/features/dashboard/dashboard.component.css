@@ -1,0 +1,22 @@
+.container {
+    max-width: 800px; /* Set max width for the container */
+  }
+  
+  h1 {
+    color: #343a40; /* Dark text color */
+  }
+  
+  h2 {
+    margin-top: 2rem; /* Space above the theme list */
+  }
+  
+  .list-group-item {
+    background-color: #f8f9fa; /* Light background for list items */
+    border: 1px solid #ced4da; /* Border for list items */
+    transition: background-color 0.3s; /* Transition effect */
+  }
+  
+  .list-group-item:hover {
+    background-color: #e9ecef; /* Change background on hover */
+  }
+  

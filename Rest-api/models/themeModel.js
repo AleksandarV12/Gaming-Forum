@@ -18,7 +18,7 @@ const themeSchema = new mongoose.Schema({
     required: true,
   },
   posts: {
-    type: [String], // Array of post IDs
+    type: [String],
     default: [],
   },
 });

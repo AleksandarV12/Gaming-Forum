@@ -1,6 +1,5 @@
 const Theme = require("../models/themeModel");
 
-// Create a new theme
 exports.createTheme = async (req, res) => {
   const { description, userId, themeName } = req.body;
   const theme = new Theme({ description, userId, themeName });
@@ -13,7 +12,6 @@ exports.createTheme = async (req, res) => {
   }
 };
 
-// Get all themes
 exports.getThemes = async (req, res) => {
   try {
     const themes = await Theme.find();
@@ -23,7 +21,6 @@ exports.getThemes = async (req, res) => {
   }
 };
 
-// Get a single theme
 exports.getThemeById = async (req, res) => {
   try {
     const theme = await Theme.findById(req.params.id);
@@ -34,7 +31,6 @@ exports.getThemeById = async (req, res) => {
   }
 };
 
-// Update a theme
 exports.updateTheme = async (req, res) => {
   try {
     const theme = await Theme.findByIdAndUpdate(req.params.id, req.body, {
@@ -47,7 +43,6 @@ exports.updateTheme = async (req, res) => {
   }
 };
 
-// Delete a theme
 exports.deleteTheme = async (req, res) => {
   try {
     const theme = await Theme.findByIdAndDelete(req.params.id);

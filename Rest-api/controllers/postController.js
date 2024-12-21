@@ -1,6 +1,5 @@
 const Post = require("../models/postModel");
 
-// Create a new post
 exports.createPost = async (req, res) => {
   const { themeId, title, text, userId } = req.body;
   const post = new Post({ themeId, title, text, userId });
@@ -13,7 +12,6 @@ exports.createPost = async (req, res) => {
   }
 };
 
-// Get all posts
 exports.getPosts = async (req, res) => {
   try {
     const posts = await Post.find();
@@ -23,7 +21,6 @@ exports.getPosts = async (req, res) => {
   }
 };
 
-// Get a single post
 exports.getPostById = async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
@@ -34,7 +31,6 @@ exports.getPostById = async (req, res) => {
   }
 };
 
-// Update a post
 exports.updatePost = async (req, res) => {
   try {
     const post = await Post.findByIdAndUpdate(req.params.id, req.body, {
@@ -47,7 +43,6 @@ exports.updatePost = async (req, res) => {
   }
 };
 
-// Delete a post
 exports.deletePost = async (req, res) => {
   try {
     const post = await Post.findByIdAndDelete(req.params.id);

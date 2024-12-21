@@ -1,0 +1,34 @@
+footer {
+    background-color: #333; /* Footer background color */
+    color: #fff; /* Text color */
+    padding: 20px;
+    text-align: center; /* Center text */
+    display: flex; /* Enable Flexbox */
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center items horizontally */
+}
+  
+.social-icons {
+    margin-top: 10px;
+    display: flex; /* Use Flexbox for icons */
+    justify-content: center; /* Center icons horizontally */
+    align-items: center; /* Align items vertically */
+}
+
+.social-icons a {
+    color: #fff; /* Icon color */
+    margin: 0 15px; /* Uniform space between icons */
+    font-size: 24px; /* Size of icons */
+    text-decoration: none; /* Remove underline */
+    display: flex; /* Enable Flexbox for icons */
+    align-items: center; /* Align icons vertically */
+}
+  
+.social-icons img {
+    height: 24px; /* Set height for the YouTube icon to match Font Awesome icons */
+    width: auto; /* Maintain aspect ratio */
+}
+
+.social-icons a:hover {
+    color: #ccc; /* Change color on hover */
+}

@@ -1,0 +1,5 @@
+<div *ngFor="let theme of themes">
+  <h2>{{ theme.themeName }}</h2>
+  <p>{{ theme.description }}</p>
+  <a [routerLink]="['/themes', theme.id]" class="btn btn-info">View Details</a>
+</div>
