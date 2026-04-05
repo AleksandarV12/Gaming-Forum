@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Post } from 'src/app/models/post.model';
 
 @Injectable({
   providedIn: 'root',
@@ -10,19 +11,34 @@ export class PostsService {
 
   constructor(private http: HttpClient) {}
 
-  getPosts(): Observable<any> {
-    return this.http.get(this.apiUrl);
+  private getAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    return new HttpHeaders({ Authorization: `Bearer ${token}` });
   }
 
-  getPostById(id: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/${id}`);
+  getPosts(): Observable<Post[]> {
+    return this.http.get<Post[]>(this.apiUrl);
   }
 
-  createPost(postData: any, token: string): Observable<any> {
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`,
+  getPostById(id: string): Observable<Post> {
+    return this.http.get<Post>(`${this.apiUrl}/${id}`);
+  }
+
+  createPost(postData: Partial<Post>): Observable<Post> {
+    return this.http.post<Post>(this.apiUrl, postData, {
+      headers: this.getAuthHeaders(),
     });
+  }
 
-    return this.http.post(this.apiUrl, postData, { headers });
+  updatePost(id: string, postData: Partial<Post>): Observable<Post> {
+    return this.http.put<Post>(`${this.apiUrl}/${id}`, postData, {
+      headers: this.getAuthHeaders(),
+    });
+  }
+
+  deletePost(id: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`, {
+      headers: this.getAuthHeaders(),
+    });
   }
 }

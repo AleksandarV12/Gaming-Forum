@@ -1,14 +1,26 @@
-<div class="post-details" *ngIf="post">
-  <h1 class="post-title">{{ post.title }}</h1>
-  <p class="post-date">{{ post.date | date : "mediumDate" }}</p>
-  <!-- Adjust based on your data structure -->
-  <div class="post-content">
-    <p>{{ post.body }}</p>
-    <!-- Adjust based on your data structure -->
+<div class="post-details" *ngIf="post; else loading">
+  <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+
+  <div *ngIf="!isEditing">
+    <h2>{{ post.title }}</h2>
+    <p>{{ post.text }}</p>
+    <p class="meta">Posted on {{ post.createdAt | date : "mediumDate" }}</p>
+
+    <div *ngIf="isOwner()" class="actions">
+      <button (click)="startEdit()">Edit</button>
+      <button (click)="deletePost()" class="danger">Delete</button>
+    </div>
   </div>
-  <div class="post-author">
-    <strong>Author:</strong> {{ post.author }}
-    <!-- Adjust based on your data structure -->
+
+  <div *ngIf="isEditing">
+    <h2>Edit Post</h2>
+    <input [(ngModel)]="editTitle" placeholder="Title" />
+    <textarea [(ngModel)]="editText" placeholder="Text"></textarea>
+    <button (click)="saveEdit()">Save</button>
+    <button (click)="cancelEdit()">Cancel</button>
   </div>
-  <a routerLink="/posts" class="back-button">Back to Posts</a>
 </div>
+
+<ng-template #loading>
+  <p>Loading post...</p>
+</ng-template>

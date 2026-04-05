@@ -14,11 +14,12 @@ import { CreateThemeComponent } from './features/themes/create-theme/create-them
 import { AboutComponent } from './about/about.component';
 import { ContactComponent } from './features/contact/contact.component';
 import { ProfileComponent } from './features/profile/profile.component';
+import { GuestGuard } from './core/guards/guest.guard';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
+  { path: 'login', component: LoginComponent, canActivate: [GuestGuard] },
+  { path: 'register', component: RegisterComponent, canActivate: [GuestGuard] },
   {
     path: 'dashboard',
     component: DashboardComponent,

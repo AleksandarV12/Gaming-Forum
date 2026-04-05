@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ThemeService } from 'src/app/core/services/theme.service';
+import { Theme } from 'src/app/models/theme.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -7,9 +8,7 @@ import { ThemeService } from 'src/app/core/services/theme.service';
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
-  recentPosts: any[] = [];
-  userThemes: any[] = [];
-  postCount: number = 0;
+  userThemes: Theme[] = [];
   themeCount: number = 0;
 
   constructor(private themeService: ThemeService) {}
@@ -18,10 +17,15 @@ export class DashboardComponent implements OnInit {
     this.loadUserThemes();
   }
 
-  loadUserThemes() {
-    this.themeService.getThemes().subscribe((themes: any[]) => {
-      this.userThemes = themes;
-      this.themeCount = themes.length;
+  loadUserThemes(): void {
+    this.themeService.getThemes().subscribe({
+      next: (themes: Theme[]) => {
+        this.userThemes = themes;
+        this.themeCount = themes.length;
+      },
+      error: () => {
+        console.error('Failed to load themes.');
+      },
     });
   }
 }

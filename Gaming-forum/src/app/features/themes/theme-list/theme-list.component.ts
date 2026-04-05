@@ -9,18 +9,18 @@ import { Theme } from 'src/app/models/theme.model';
 })
 export class ThemeListComponent implements OnInit {
   themes: Theme[] = [];
+  errorMessage: string = '';
 
   constructor(private themeService: ThemeService) {}
 
   ngOnInit(): void {
-    this.themeService.getThemes().subscribe(
-      (data) => {
-        console.log('Fetched themes:', data);
+    this.themeService.getThemes().subscribe({
+      next: (data) => {
         this.themes = data;
       },
-      (error) => {
-        console.error('Error fetching themes:', error);
-      }
-    );
+      error: () => {
+        this.errorMessage = 'Failed to load themes.';
+      },
+    });
   }
 }

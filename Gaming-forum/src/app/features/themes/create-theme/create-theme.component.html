@@ -1,19 +1,28 @@
-<div>
-  <h1>Create New Theme</h1>
-  <form (ngSubmit)="createTheme()">
-    <div>
-      <label for="themeName">Theme Name:</label>
-      <input id="themeName" [(ngModel)]="themeName" name="themeName" required />
-    </div>
-    <div>
-      <label for="description">Description:</label>
-      <textarea
-        id="description"
-        [(ngModel)]="description"
-        name="description"
-        required
-      ></textarea>
-    </div>
-    <button type="submit" class="btn btn-primary">Create Theme</button>
-  </form>
+<div class="create-theme">
+  <h2>Create Theme</h2>
+
+  <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+
+  <div>
+    <input [(ngModel)]="themeName" placeholder="Theme Name" type="text" />
+    <span *ngIf="themeName.length > 0 && themeName.length < 3" class="warning">
+      Theme name must be at least 3 characters.
+    </span>
+  </div>
+
+  <div>
+    <textarea
+      [(ngModel)]="description"
+      placeholder="Describe your theme..."
+      rows="4"
+    ></textarea>
+    <span
+      *ngIf="description.length > 0 && description.length < 10"
+      class="warning"
+    >
+      Description must be at least 10 characters.
+    </span>
+  </div>
+
+  <button (click)="createTheme()">Create Theme</button>
 </div>

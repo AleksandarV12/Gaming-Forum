@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { PostsService } from 'src/app/core/services/posts.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-post',
@@ -11,37 +12,47 @@ export class CreatePostComponent {
   title: string = '';
   text: string = '';
   themeId: string = '';
+  errorMessage: string = '';
 
   constructor(
     private authService: AuthService,
-    private postsService: PostsService
+    private postsService: PostsService,
+    private router: Router
   ) {}
 
   onSubmit() {
-    if (this.title && this.text && this.themeId) {
-      const postData = {
-        title: this.title,
-        text: this.text,
-        themeId: this.themeId,
-        userId: this.authService.getUserId(),
-      };
+    this.errorMessage = '';
 
-      const token = this.authService.getToken();
-
-      if (token) {
-        this.postsService.createPost(postData, token).subscribe(
-          (response: any) => {
-            console.log('Post created successfully!', response);
-          },
-          (error: any) => {
-            console.error('Error creating post:', error);
-          }
-        );
-      } else {
-        console.error('No token found, user may not be authenticated.');
-      }
-    } else {
-      console.error('All fields must be filled out.');
+    if (!this.title || !this.text || !this.themeId) {
+      this.errorMessage = 'All fields are required.';
+      return;
     }
+
+    if (this.title.length < 3) {
+      this.errorMessage = 'Title must be at least 3 characters long.';
+      return;
+    }
+
+    if (this.text.length < 10) {
+      this.errorMessage = 'Post text must be at least 10 characters long.';
+      return;
+    }
+
+    const postData = {
+      title: this.title,
+      text: this.text,
+      themeId: this.themeId,
+      userId: this.authService.getUserId() ?? undefined,
+    };
+
+    this.postsService.createPost(postData).subscribe({
+      next: () => {
+        this.router.navigate(['/posts']);
+      },
+      error: (err) => {
+        this.errorMessage =
+          err.error?.message || 'Failed to create post. Please try again.';
+      },
+    });
   }
 }
