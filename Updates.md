@@ -5,3 +5,4 @@
 \*Created falling menu
 \*Created buttons
 \*Fixed database
+\*Fixed other things
