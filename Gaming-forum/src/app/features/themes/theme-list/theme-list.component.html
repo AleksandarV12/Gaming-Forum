@@ -1,5 +1,28 @@
-<div *ngFor="let theme of themes">
-  <h2>{{ theme.themeName }}</h2>
-  <p>{{ theme.description }}</p>
-  <a [routerLink]="['/themes', theme.id]" class="btn btn-info">View Details</a>
+<div class="themes-container">
+  <h1 class="page-title">Game Themes</h1>
+  <p class="page-subtitle">Browse all discussion themes or create your own</p>
+
+  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+
+  <div *ngIf="themes.length === 0 && !errorMessage" class="empty-state">
+    <p>No themes yet. Be the first to create one!</p>
+    <a routerLink="/create-theme" class="btn-create">Create Theme</a>
+  </div>
+
+  <div class="themes-grid">
+    <div *ngFor="let theme of themes" class="theme-card">
+      <div class="theme-card-header">
+        <h2 class="theme-title">{{ theme.themeName }}</h2>
+      </div>
+      <div class="theme-card-body">
+        <p class="theme-description">{{ theme.description }}</p>
+        <p class="theme-date">
+          Created {{ theme.createdAt | date : "mediumDate" }}
+        </p>
+      </div>
+      <div class="theme-card-footer">
+        <a [routerLink]="['/themes', theme._id]" class="btn-view">View Theme</a>
+      </div>
+    </div>
+  </div>
 </div>

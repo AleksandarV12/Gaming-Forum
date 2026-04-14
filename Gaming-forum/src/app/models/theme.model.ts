@@ -1,7 +1,8 @@
 import { Post } from './post.model';
 
 export interface Theme {
-  id: string;
+  _id: string;
+  id?: string;
   userId: string;
   themeName: string;
   description: string;

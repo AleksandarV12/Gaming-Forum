@@ -1,16 +1,122 @@
-.card {
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    margin: 15px 0;
+.themes-container {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.page-title {
+  font-size: 2.2rem;
+  color: #2c3e50;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.page-subtitle {
+  color: #777;
+  margin-bottom: 30px;
+  font-size: 1.1rem;
+}
+
+.themes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.theme-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.theme-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.theme-card-header {
+  background: linear-gradient(135deg, #4a90e2, #9013fe);
+  padding: 20px;
+}
+
+.theme-title {
+  color: #fff;
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.theme-card-body {
+  padding: 16px 20px;
+  flex: 1;
+}
+
+.theme-description {
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+.theme-date {
+  font-size: 0.85rem;
+  color: #aaa;
+}
+
+.theme-card-footer {
+  padding: 16px 20px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.btn-view {
+  display: inline-block;
+  background: linear-gradient(135deg, #4a90e2, #9013fe);
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: opacity 0.2s ease;
+}
+
+.btn-view:hover {
+  opacity: 0.85;
+}
+
+.btn-create {
+  display: inline-block;
+  background: #4a90e2;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 6px;
+  text-decoration: none;
+  margin-top: 10px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #777;
+  font-size: 1.1rem;
+}
+
+.error-message {
+  color: #e74c3c;
+  background: #fdecea;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .themes-grid {
+    grid-template-columns: 1fr;
   }
-  
-  .card-title {
-    font-size: 1.5rem;
-    color: var(--primary-color);
+
+  .page-title {
+    font-size: 1.8rem;
   }
-  
-  .card-text {
-    color: var(--light-text-color);
-  }
+}

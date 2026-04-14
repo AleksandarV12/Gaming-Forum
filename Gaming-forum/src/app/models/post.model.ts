@@ -1,5 +1,6 @@
 export interface Post {
-  id: string;
+  _id: string;
+  id?: string;
   themeId: string;
   title: string;
   text: string;

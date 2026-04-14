@@ -10,6 +10,7 @@ import { Theme } from 'src/app/models/theme.model';
 export class DashboardComponent implements OnInit {
   userThemes: Theme[] = [];
   themeCount: number = 0;
+  postCount: number = 0;
 
   constructor(private themeService: ThemeService) {}
 

@@ -4,6 +4,6 @@
     <p class="post-content">{{ post.text }}</p>
     <span class="post-date">{{ post.createdAt | date : "mediumDate" }}</span>
     <!-- Example of date formatting -->
-    <a class="read-more" [routerLink]="['/posts', post.id]">Read more</a>
+    <a class="read-more" [routerLink]="['/posts', post._id]">Read More →</a>
   </div>
 </div>

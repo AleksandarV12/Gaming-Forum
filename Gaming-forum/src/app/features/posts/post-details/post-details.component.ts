@@ -59,7 +59,7 @@ export class PostDetailsComponent implements OnInit {
       return;
     }
     this.postsService
-      .updatePost(this.post!.id, {
+      .updatePost(this.post!._id, {
         title: this.editTitle,
         text: this.editText,
       })
@@ -76,7 +76,7 @@ export class PostDetailsComponent implements OnInit {
 
   deletePost(): void {
     if (confirm('Are you sure you want to delete this post?')) {
-      this.postsService.deletePost(this.post!.id).subscribe({
+      this.postsService.deletePost(this.post!._id).subscribe({
         next: () => {
           this.router.navigate(['/posts']);
         },

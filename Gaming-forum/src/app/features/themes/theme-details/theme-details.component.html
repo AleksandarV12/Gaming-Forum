@@ -1,9 +1,48 @@
-<div *ngIf="errorMessage" class="alert alert-danger">
-  {{ errorMessage }}
-</div>
+<div class="theme-details-container">
+  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
 
-<div *ngIf="theme">
-  <h1>{{ theme.themeName }}</h1>
-  <p>{{ theme.description }}</p>
-  <p>Created by: {{ theme.userId }}</p>
+  <div *ngIf="!theme && !errorMessage" class="loading">
+    <p>Loading theme...</p>
+  </div>
+
+  <div *ngIf="theme">
+    <!-- Theme Header -->
+    <div class="theme-header">
+      <h1 class="theme-name">{{ theme.themeName }}</h1>
+      <p class="theme-description">{{ theme.description }}</p>
+      <div class="theme-meta">
+        <span>📅 Created {{ theme.createdAt | date : "mediumDate" }}</span>
+      </div>
+    </div>
+
+    <!-- Posts in this theme -->
+    <div class="section">
+      <h2 class="section-title">Posts in this Theme</h2>
+
+      <div *ngIf="!theme.posts || theme.posts.length === 0" class="empty-state">
+        <p>No posts in this theme yet.</p>
+        <a routerLink="/create-post" class="btn-primary"
+          >Create the first post</a
+        >
+      </div>
+
+      <div class="posts-grid">
+        <div *ngFor="let post of theme.posts" class="post-card">
+          <h3 class="post-title">{{ post.title }}</h3>
+          <p class="post-preview">{{ post.text | slice : 0 : 120 }}...</p>
+          <div class="post-footer">
+            <span class="post-date">{{
+              post.createdAt | date : "mediumDate"
+            }}</span>
+            <a [routerLink]="['/posts', post._id]" class="read-more"
+              >Read More →</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Back Button -->
+    <a routerLink="/themes" class="btn-back">← Back to Themes</a>
+  </div>
 </div>
