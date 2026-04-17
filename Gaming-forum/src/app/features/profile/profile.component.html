@@ -1,14 +1,29 @@
-<!-- src/app/features/profile/profile.component.html -->
-
-<h2>User Profile</h2>
 <div class="profile-container">
-  <div class="profile-info">
-    <label>Username:</label>
-    <p>{{ username }}</p>
+  <div class="profile-header">
+    <div class="avatar">{{ username.charAt(0).toUpperCase() }}</div>
+    <h1 class="profile-username">{{ username }}</h1>
+    <p class="profile-email">{{ email }}</p>
   </div>
-  <div class="profile-info">
-    <label>Email:</label>
-    <p>{{ email }}</p>
+
+  <div class="profile-details">
+    <div class="detail-card">
+      <span class="detail-icon">👤</span>
+      <div class="detail-info">
+        <span class="detail-label">Username</span>
+        <span class="detail-value">{{ username }}</span>
+      </div>
+    </div>
+    <div class="detail-card">
+      <span class="detail-icon">📧</span>
+      <div class="detail-info">
+        <span class="detail-label">Email</span>
+        <span class="detail-value">{{ email }}</span>
+      </div>
+    </div>
   </div>
-  <!-- Add other user information fields as needed -->
+
+  <div class="profile-actions">
+    <a routerLink="/dashboard" class="btn-primary">Go to Dashboard</a>
+    <a routerLink="/create-post" class="btn-outline">Create a Post</a>
+  </div>
 </div>

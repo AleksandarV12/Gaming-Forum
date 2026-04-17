@@ -10,9 +10,6 @@ import { throwError } from 'rxjs';
 })
 export class AuthService {
   private apiUrl = 'http://localhost:3000/api/auth';
-  private token: string | null = null;
-  private userId: string | null = null;
-  private user: any;
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -21,6 +18,8 @@ export class AuthService {
       tap((response) => {
         if (response.token) {
           localStorage.setItem('token', response.token);
+          localStorage.setItem('userId', response.userId);
+          localStorage.setItem('email', response.email);
           const user = { username: response.username };
           localStorage.setItem('user', JSON.stringify(user));
         }
@@ -38,6 +37,8 @@ export class AuthService {
         tap((response) => {
           if (response.token) {
             localStorage.setItem('token', response.token);
+            localStorage.setItem('userId', response.userId);
+            localStorage.setItem('email', response.email);
             const user = { username: userData.username };
             localStorage.setItem('user', JSON.stringify(user));
           }
@@ -51,6 +52,8 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('email');
   }
 
   isLoggedIn(): boolean {
@@ -67,10 +70,10 @@ export class AuthService {
   }
 
   getUserId(): string | null {
-    return this.userId;
+    return localStorage.getItem('userId');
   }
 
   getEmail(): string {
-    return this.user.email || '';
+    return localStorage.getItem('email') || '';
   }
 }

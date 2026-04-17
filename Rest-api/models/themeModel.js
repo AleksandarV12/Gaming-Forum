@@ -11,14 +11,14 @@ const themeSchema = new mongoose.Schema({
   },
   userId: {
     type: String,
-    required: true,
+    required: false,
   },
   themeName: {
     type: String,
     required: true,
   },
   posts: {
-    type: [String],
+    type: Array,
     default: [],
   },
 });

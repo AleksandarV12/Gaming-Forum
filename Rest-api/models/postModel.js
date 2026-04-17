@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const postSchema = new mongoose.Schema({
   themeId: {
     type: mongoose.Schema.Types.ObjectId,
-    required: true,
+    required: false,
     ref: "Theme",
   },
   createdAt: {
@@ -24,7 +24,7 @@ const postSchema = new mongoose.Schema({
   },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    required: true,
+    required: false,
     ref: "User",
   },
 });

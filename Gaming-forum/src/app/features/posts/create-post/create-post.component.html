@@ -1,29 +1,43 @@
-<div class="create-post">
-  <h2>Create Post</h2>
+<div class="create-post-container">
+  <h2 class="page-title">Create a New Post</h2>
 
-  <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
 
-  <div>
-    <input [(ngModel)]="title" placeholder="Title" type="text" />
+  <div class="form-group">
+    <label>Title</label>
+    <input
+      [(ngModel)]="title"
+      placeholder="Enter post title..."
+      type="text"
+      class="form-input"
+    />
     <span *ngIf="title.length > 0 && title.length < 3" class="warning">
       Title must be at least 3 characters.
     </span>
   </div>
 
-  <div>
-    <input [(ngModel)]="themeId" placeholder="Theme ID" type="text" />
+  <div class="form-group">
+    <label>Theme</label>
+    <select [(ngModel)]="themeId" class="form-input">
+      <option value="" disabled>Select a theme...</option>
+      <option *ngFor="let theme of themes" [value]="theme._id">
+        {{ theme.themeName }}
+      </option>
+    </select>
   </div>
 
-  <div>
+  <div class="form-group">
+    <label>Content</label>
     <textarea
       [(ngModel)]="text"
       placeholder="Write your post..."
-      rows="6"
+      rows="8"
+      class="form-input"
     ></textarea>
     <span *ngIf="text.length > 0 && text.length < 10" class="warning">
       Text must be at least 10 characters.
     </span>
   </div>
 
-  <button (click)="onSubmit()">Create Post</button>
+  <button class="btn-submit" (click)="onSubmit()">Publish Post</button>
 </div>
