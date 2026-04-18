@@ -54,25 +54,22 @@ export class PostDetailsComponent implements OnInit {
   }
 
   saveEdit(): void {
-    if (!this.editTitle || !this.editText) {
-      this.errorMessage = 'Title and text cannot be empty.';
-      return;
-    }
-    this.postsService
-      .updatePost(this.post!._id, {
-        title: this.editTitle,
-        text: this.editText,
-      })
-      .subscribe({
-        next: (updated) => {
-          this.post = updated;
-          this.isEditing = false;
-        },
-        error: () => {
-          this.errorMessage = 'Failed to update post.';
-        },
-      });
+  if (!this.editTitle || !this.editText) {
+    this.errorMessage = 'Title and text cannot be empty.';
+    return;
   }
+  this.postsService.updatePost(this.post!._id, {
+    title: this.editTitle,
+    text: this.editText
+  }).subscribe({
+    next: (response: any) => {
+      this.post = response.post || response;
+      this.isEditing = false;
+      this.errorMessage = '';
+    },
+    error: () => { this.errorMessage = 'Failed to update post.'; }
+  });
+}
 
   deletePost(): void {
     if (confirm('Are you sure you want to delete this post?')) {

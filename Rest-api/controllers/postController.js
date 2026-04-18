@@ -42,6 +42,9 @@ exports.getPostById = async (req, res) => {
 };
 
 exports.updatePost = async (req, res) => {
+  console.log('PUT /api/posts called, id:', req.params.id);
+  console.log('Request body:', req.body);
+  console.log('UserId from token:', req.userId);
   try {
     const post = await Post.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
@@ -49,6 +52,7 @@ exports.updatePost = async (req, res) => {
     if (!post) return res.status(404).json({ message: "Post not found" });
     res.json({ message: "Post updated", post });
   } catch (error) {
+    console.error('UPDATE POST ERROR:', error.message);
     res.status(500).json({ message: error.message });
   }
 };

@@ -7,9 +7,10 @@
       and connect with other players.
     </p>
     <div class="hero-buttons">
-      <a routerLink="/themes" class="btn-primary">Browse Themes</a>
-      <a routerLink="/register" class="btn-outline">Join Now</a>
-    </div>
+  <a routerLink="/themes" class="btn-primary">Browse Themes</a>
+  <a *ngIf="!isLoggedIn" routerLink="/register" class="btn-outline">Join Now</a>
+  <a *ngIf="isLoggedIn" routerLink="/posts" class="btn-outline">Browse Posts</a>
+</div>
   </div>
 
   <!-- Stats Bar -->

@@ -1,26 +1,65 @@
-<div class="post-details" *ngIf="post; else loading">
-  <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+<div class="post-details-container">
 
-  <div *ngIf="!isEditing">
-    <h2>{{ post.title }}</h2>
-    <p>{{ post.text }}</p>
-    <p class="meta">Posted on {{ post.createdAt | date : "mediumDate" }}</p>
+  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
 
-    <div *ngIf="isOwner()" class="actions">
-      <button (click)="startEdit()">Edit</button>
-      <button (click)="deletePost()" class="danger">Delete</button>
-    </div>
+  <div *ngIf="!post && !errorMessage" class="loading">
+    <p>Loading post...</p>
   </div>
 
-  <div *ngIf="isEditing">
-    <h2>Edit Post</h2>
-    <input [(ngModel)]="editTitle" placeholder="Title" />
-    <textarea [(ngModel)]="editText" placeholder="Text"></textarea>
-    <button (click)="saveEdit()">Save</button>
-    <button (click)="cancelEdit()">Cancel</button>
+  <div *ngIf="post">
+
+    <!-- View Mode -->
+    <div *ngIf="!isEditing">
+      <div class="post-header">
+        <div class="post-meta">
+          <span class="post-date">📅 {{ post.createdAt | date:'mediumDate' }}</span>
+        </div>
+        <h1 class="post-title">{{ post.title }}</h1>
+      </div>
+
+      <div class="post-body">
+        <p>{{ post.text }}</p>
+      </div>
+
+      <div *ngIf="isOwner()" class="post-actions">
+        <button class="btn-edit" (click)="startEdit()">✏️ Edit</button>
+        <button class="btn-delete" (click)="deletePost()">🗑️ Delete</button>
+      </div>
+
+      <a routerLink="/posts" class="btn-back">← Back to Posts</a>
+    </div>
+
+    <!-- Edit Mode -->
+    <div *ngIf="isEditing" class="edit-form">
+      <h2 class="edit-title">Edit Post</h2>
+
+      <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+
+      <div class="form-group">
+        <label>Title</label>
+        <input
+          [(ngModel)]="editTitle"
+          placeholder="Post title..."
+          class="form-input"
+          type="text"
+        />
+      </div>
+
+      <div class="form-group">
+        <label>Content</label>
+        <textarea
+          [(ngModel)]="editText"
+          placeholder="Post content..."
+          rows="8"
+          class="form-input"
+        ></textarea>
+      </div>
+
+      <div class="edit-actions">
+        <button class="btn-save" (click)="saveEdit()">💾 Save Changes</button>
+        <button class="btn-cancel" (click)="cancelEdit()">Cancel</button>
+      </div>
+    </div>
+
   </div>
 </div>
-
-<ng-template #loading>
-  <p>Loading post...</p>
-</ng-template>
