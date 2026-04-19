@@ -1,82 +1,158 @@
-/* src/app/features/contact/contact.component.css */
-
-body {
-    background-color: #f9f9f9; /* Light background for the page */
-  }
-  
-  h2 {
-    text-align: center;
-    margin-bottom: 20px; /* Space below the heading */
-    color: #333; /* Darker color for better readability */
-  }
-  
-  form {
-    max-width: 500px; /* Wider form for better usability */
-    margin: auto;
-    padding: 20px; /* Padding inside the form */
-    background-color: #fff; /* White background for the form */
-    border-radius: 8px; /* Rounded corners for the form */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-  }
-  
-  div {
-    margin-bottom: 15px; /* Space between form fields */
-  }
-  
-  label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold; /* Bold labels for better visibility */
-    color: #555; /* Darker label color */
-  }
-  
-  input, textarea {
-    width: 100%; /* Full width for input fields */
-    padding: 10px; /* Padding inside input fields */
-    border: 1px solid #ccc; /* Border color */
-    border-radius: 4px; /* Rounded corners for input fields */
-    font-size: 16px; /* Larger font for better readability */
-    transition: border-color 0.3s; /* Smooth transition for focus effect */
-  }
-  
-  input:focus, textarea:focus {
-    border-color: #007BFF; /* Change border color on focus */
-    outline: none; /* Remove default outline */
-  }
-  
-  button {
-    width: 100%; /* Full width for the button */
-    padding: 10px; /* Padding inside the button */
-    background-color: #007BFF; /* Primary color for the button */
-    color: white; /* White text color for the button */
-    border: none; /* No border */
-    border-radius: 4px; /* Rounded corners for the button */
-    font-size: 16px; /* Font size */
-    cursor: pointer; /* Pointer cursor on hover */
-    transition: background-color 0.3s; /* Smooth transition for hover effect */
-  }
-  
-  button:hover {
-    background-color: #0056b3; /* Darker shade on hover */
-  }
-  
-  .success-message {
-    margin-top: 20px; /* Space above the success message */
-    color: green; /* Green color for success message */
-    font-size: 16px; /* Larger font for better visibility */
-    text-align: center; /* Centered text */
-    padding: 10px; /* Padding around the message */
-    background-color: #e7f9e7; /* Light green background */
-    border: 1px solid #c3e6c3; /* Light border */
-    border-radius: 4px; /* Rounded corners for the message */
-  }
-
-input.ng-invalid,
-    textarea.ng-invalid {
-    border-color: red; /* Red border for invalid inputs */
+.contact-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 0 20px 60px;
 }
 
-input.ng-valid,
-    textarea.ng-valid {
-    border-color: green; /* Green border for valid inputs */
+/* Hero */
+.contact-hero {
+  text-align: center;
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  border-radius: 16px;
+  padding: 60px 20px;
+  margin-bottom: 40px;
+  color: #fff;
+}
+
+.hero-icon {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 16px;
+}
+
+.contact-hero h1 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, #4a90e2, #9013fe);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.contact-hero p {
+  font-size: 1.1rem;
+  opacity: 0.8;
+}
+
+/* Form */
+.contact-form-wrapper {
+  background: #fff;
+  border-radius: 16px;
+  padding: 40px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+  margin-bottom: 32px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  color: #444;
+  margin-bottom: 8px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.2s ease;
+  font-family: inherit;
+}
+
+.form-input:focus {
+  border-color: #4a90e2;
+}
+
+.btn-submit {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #4a90e2, #9013fe);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.btn-submit:hover {
+  opacity: 0.88;
+}
+
+.success-message {
+  background: #e8f5e9;
+  color: #2e7d32;
+  padding: 14px 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+.error-message {
+  background: #fdecea;
+  color: #e74c3c;
+  padding: 14px 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+/* Info Cards */
+.contact-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.info-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 28px 24px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.info-card:hover {
+  transform: translateY(-5px);
+}
+
+.info-icon {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.info-card h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 8px;
+}
+
+.info-card p {
+  color: #777;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 768px) {
+  .contact-hero h1 {
+    font-size: 1.8rem;
+  }
+
+  .contact-form-wrapper {
+    padding: 24px;
+  }
+
+  .contact-info {
+    grid-template-columns: 1fr;
+  }
 }

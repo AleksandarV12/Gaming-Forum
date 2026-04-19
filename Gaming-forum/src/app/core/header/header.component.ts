@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 
@@ -15,10 +15,22 @@ export class HeaderComponent {
 
   toggleDropdown(): void {
     this.isDropdownOpen = !this.isDropdownOpen;
+    this.isProfileMenuOpen = false;
   }
 
   toggleProfileMenu(): void {
     this.isProfileMenuOpen = !this.isProfileMenuOpen;
+    this.isDropdownOpen = false;
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    const target = event.target as HTMLElement;
+    const clickedInsideNav = target.closest('.nav-dropdown');
+    if (!clickedInsideNav) {
+      this.isDropdownOpen = false;
+      this.isProfileMenuOpen = false;
+    }
   }
 
   logout(): void {

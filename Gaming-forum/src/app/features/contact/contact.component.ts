@@ -1,5 +1,3 @@
-// src/app/features/contact/contact.component.ts
-
 import { Component } from '@angular/core';
 
 @Component({
@@ -12,30 +10,31 @@ export class ContactComponent {
   email: string = '';
   message: string = '';
   successMessage: string = '';
-  emailValid: boolean = true;
+  errorMessage: string = '';
 
   onSubmit() {
     this.successMessage = '';
+    this.errorMessage = '';
 
-    this.emailValid = this.validateEmail(this.email);
-
-    if (this.name && this.emailValid && this.message) {
-      this.successMessage = 'Your message has been sent successfully!';
-
-      this.name = '';
-      this.email = '';
-      this.message = '';
-    } else {
-      if (!this.name) {
-        alert('Please enter your name.');
-      }
-      if (!this.emailValid) {
-        alert('Please enter a valid email address.');
-      }
-      if (!this.message) {
-        alert('Please enter your message.');
-      }
+    if (!this.name) {
+      this.errorMessage = 'Please enter your name.';
+      return;
     }
+
+    if (!this.email || !this.validateEmail(this.email)) {
+      this.errorMessage = 'Please enter a valid email address.';
+      return;
+    }
+
+    if (!this.message) {
+      this.errorMessage = 'Please enter your message.';
+      return;
+    }
+
+    this.successMessage = 'Your message has been sent successfully!';
+    this.name = '';
+    this.email = '';
+    this.message = '';
   }
 
   validateEmail(email: string): boolean {

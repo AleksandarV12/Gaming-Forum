@@ -1,37 +1,61 @@
 <div class="about-container">
-  <h1>About Gorum</h1>
-  <p>
-    Welcome to <strong>Gorum - The Gaming Forum</strong>, your go-to destination
-    for all things gaming!
-  </p>
-  <p>
-    At Gorum, we believe in fostering a community where gamers can share their
-    thoughts, experiences, and insights on various games. Whether you’re a
-    casual gamer or a hardcore enthusiast, there's something for everyone here.
-  </p>
+  <!-- Hero -->
+  <div class="about-hero">
+    <span class="hero-icon">🎮</span>
+    <h1>About Gorum</h1>
+    <p>The ultimate community for gamers worldwide</p>
+  </div>
 
-  <h2>Our Mission</h2>
-  <p>
-    Our mission is to create a vibrant platform for gamers to connect, discuss,
-    and explore the gaming universe. We aim to provide:
-  </p>
-  <ul>
-    <li>
-      <strong>Game Reviews:</strong> Read and share reviews on the latest games.
-    </li>
-    <li>
-      <strong>Community Discussions:</strong> Engage in discussions about
-      different gaming genres and trends.
-    </li>
-    <li>
-      <strong>Events and Tournaments:</strong> Stay updated on upcoming gaming
-      events and tournaments.
-    </li>
-  </ul>
+  <!-- Intro -->
+  <div class="about-intro">
+    <p>
+      Welcome to <strong>Gorum - The Gaming Forum</strong>, your go-to
+      destination for all things gaming! We believe in fostering a community
+      where gamers can share their thoughts, experiences, and insights on
+      various games. Whether you're a casual gamer or a hardcore enthusiast,
+      there's something for everyone here.
+    </p>
+  </div>
 
-  <h2>Join Us</h2>
-  <p>
-    Sign up today to become part of our community and start sharing your gaming
-    journey!
-  </p>
+  <!-- Mission Cards -->
+  <h2 class="section-title">What We Offer</h2>
+  <div class="cards-grid">
+    <div class="card">
+      <span class="card-icon">⭐</span>
+      <h3>Game Reviews</h3>
+      <p>Read and share reviews on the latest games from all genres.</p>
+    </div>
+    <div class="card">
+      <span class="card-icon">💬</span>
+      <h3>Community Discussions</h3>
+      <p>Engage in discussions about different gaming genres and trends.</p>
+    </div>
+    <div class="card">
+      <span class="card-icon">🏆</span>
+      <h3>Events & Tournaments</h3>
+      <p>Stay updated on upcoming gaming events and tournaments.</p>
+    </div>
+  </div>
+
+  <!-- Join CTA -->
+  <div class="cta-section">
+    <h2>{{ isLoggedIn ? "Keep Exploring!" : "Ready to Join?" }}</h2>
+    <p>
+      {{
+      isLoggedIn
+      ? "Dive into discussions, create themes and share your gaming experience!"
+      : "Sign up today and start sharing your gaming journey with thousands of players!"
+      }}
+    </p>
+    <div class="cta-buttons">
+      <ng-container *ngIf="!isLoggedIn">
+        <a routerLink="/register" class="btn-primary">Create Account</a>
+        <a routerLink="/themes" class="btn-outline">Browse Themes</a>
+      </ng-container>
+      <ng-container *ngIf="isLoggedIn">
+        <a routerLink="/create-post" class="btn-primary">Create a Post</a>
+        <a routerLink="/themes" class="btn-outline">Browse Themes</a>
+      </ng-container>
+    </div>
+  </div>
 </div>

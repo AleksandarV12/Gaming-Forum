@@ -1,36 +1,74 @@
-<!-- src/app/features/contact/contact.component.html -->
+<div class="contact-container">
 
-<h2>Contact Us</h2>
-<form (ngSubmit)="onSubmit()" #contactForm="ngForm">
-  <div>
-    <label for="name">Name:</label>
-    <input type="text" id="name" [(ngModel)]="name" name="name" required />
-    <div *ngIf="!name" style="color: red">Name is required.</div>
+  <!-- Header -->
+  <div class="contact-hero">
+    <span class="hero-icon">📧</span>
+    <h1>Contact Us</h1>
+    <p>Have a question or feedback? We'd love to hear from you!</p>
   </div>
 
-  <div>
-    <label for="email">Email:</label>
-    <input type="email" id="email" [(ngModel)]="email" name="email" required />
-    <div *ngIf="!emailValid && email" style="color: red">
-      Invalid email address.
+  <!-- Form -->
+  <div class="contact-form-wrapper">
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+    <div *ngIf="successMessage" class="success-message">
+      ✅ {{ successMessage }}
+    </div>
+
+    <form (ngSubmit)="onSubmit()" #contactForm="ngForm">
+      <div class="form-group">
+        <label>Your Name</label>
+        <input
+          type="text"
+          [(ngModel)]="name"
+          name="name"
+          placeholder="Enter your name..."
+          class="form-input"
+        />
+      </div>
+
+      <div class="form-group">
+        <label>Email Address</label>
+        <input
+          type="email"
+          [(ngModel)]="email"
+          name="email"
+          placeholder="Enter your email..."
+          class="form-input"
+        />
+      </div>
+
+      <div class="form-group">
+        <label>Message</label>
+        <textarea
+          [(ngModel)]="message"
+          name="message"
+          placeholder="Write your message here..."
+          rows="6"
+          class="form-input"
+        ></textarea>
+      </div>
+
+      <button type="submit" class="btn-submit">Send Message 🚀</button>
+    </form>
+  </div>
+
+  <!-- Info Cards -->
+  <div class="contact-info">
+    <div class="info-card">
+      <span class="info-icon">📍</span>
+      <h3>Location</h3>
+      <p>Gaming World, Internet</p>
+    </div>
+    <div class="info-card">
+      <span class="info-icon">⏰</span>
+      <h3>Response Time</h3>
+      <p>Within 24 hours</p>
+    </div>
+    <div class="info-card">
+      <span class="info-icon">🤝</span>
+      <h3>Support</h3>
+      <p>Always here to help</p>
     </div>
   </div>
 
-  <div>
-    <label for="message">Message:</label>
-    <textarea
-      id="message"
-      [(ngModel)]="message"
-      name="message"
-      required
-    ></textarea>
-    <div *ngIf="!message" style="color: red">Message is required.</div>
-  </div>
-
-  <button type="submit">Send Message</button>
-</form>
-
-<!-- Display success message -->
-<div *ngIf="successMessage" class="success-message">
-  {{ successMessage }}
 </div>
