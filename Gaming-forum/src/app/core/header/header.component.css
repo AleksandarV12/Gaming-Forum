@@ -172,11 +172,33 @@
   font-size: 0.95rem;
   transition: background 0.2s ease;
   cursor: pointer;
+
+  a.dropdown-item:focus,
+  a.dropdown-item:active,
+  a.dropdown-item.active {
+    background-color: transparent !important;
+    color: rgba(255, 255, 255, 0.85) !important;
+    outline: none;
+  }
 }
 
 .dropdown-item:hover {
   background: rgba(255, 255, 255, 0.08);
   color: #fff;
+}
+
+.dropdown-item:focus {
+  background: transparent;
+  outline: none;
+}
+
+.dropdown-item:active {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.dropdown-item.active {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .dropdown-item-danger {
